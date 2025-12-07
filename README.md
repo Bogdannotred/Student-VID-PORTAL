@@ -1,4 +1,4 @@
-# Proiect-UBD
+# Proiect-UBDD
 # 🧩 Cerințe pentru realizarea proiectului
 
 ## 📘 Descriere generală
