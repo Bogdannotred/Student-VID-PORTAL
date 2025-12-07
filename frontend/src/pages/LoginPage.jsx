@@ -3,12 +3,30 @@ import LogoWithText from "../assets/LogoWithText.png"
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
+import { createClient } from "@supabase/supabase-js";
 
 export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const handleGoogleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'http://localhost:3000/HomePage',
+      },
+    });
+    if (error) {
+      console.error("Error during Google login:", error.message);
+    } else {
+      console.log("Google login successful:", data);
+    }
+  };
 
   return (
     <div className="bg-gradient-to-r from-blue-400 to-purple-500 font-poppins min-h-screen flex flex-col items-center bg-gray-100">
