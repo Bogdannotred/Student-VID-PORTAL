@@ -1,6 +1,7 @@
 import React from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
@@ -31,7 +32,7 @@ export default function Header() {
   }
 
   return (
-    <div className="relative bg-gray-100 min-h-screen pb-24">
+    <div className="relative bg-gray-200 pb-24">
       <header className="bg-blue-600 text-white h-20 p-4 shadow-md w-full flex justify-start items-center relative z-10">
         <h1 className="text-3xl font-bold">Student Vid</h1>
       </header>
@@ -43,13 +44,13 @@ export default function Header() {
           ${isDropdownOpen ? 'opacity-100 scale-100 pt-16' : 'opacity-0 scale-50 pt-0 pointer-events-none'}`}
         >
             <div className="relative w-full h-full">
-                <div 
+                <Link to="/profile"
                     className="absolute top-[-42px] left-8 cursor-pointer group flex flex-col items-center justify-center transform -rotate-[-24deg] hover:scale-110 transition-transform"
-                    onClick={() => console.log("Profile Clicked")}
+                    onClick={() => setIsDropdownOpen(false)}
                 >
                      <span className="text-2xl group-hover:text-blue-600">👤</span>
                      <span className="text-xs font-bold text-gray-600 group-hover:text-blue-600">Profile</span>
-                </div>
+                </Link>
                 <div 
                     className="absolute bottom-4 left-1/2 transform -translate-x-1/2 cursor-pointer group flex flex-col items-center justify-center hover:scale-110 transition-transform"
                     onClick={() => console.log("Settings Clicked")}

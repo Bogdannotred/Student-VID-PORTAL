@@ -2,7 +2,9 @@ import React from "react";
 import LogoWithText from "../assets/LogoWithText.png"
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
+import Notification from "../components/Notification";
 
 
 export default function RegisterPage() {
@@ -10,12 +12,38 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
+  const navigate = useNavigate();
 
 
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setNotificationMessage("Passwords do not match!");
+      setNotificationType('error');
+      return;
+    }
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+    if (error) {
+      console.error("Error during registration:", error.message);
+      setNotificationMessage(error.message);
+      setNotificationType('error');
+    } else {
+      console.log("Registration successful:", data);
+      setNotificationMessage('Registration successful! Please check your email to confirm your account.');
+      setNotificationType('success');
+      navigate('/login');
+    }
+  };
 
 
   return (
-    <div className="bg-gradient-to-r from-blue-400 to-purple-500 font-poppins min-h-screen flex flex-col items-center bg-gray-100">
+    <div className="bg-gradient-to-r from-blue-400 to-purple-500 font-poppins min-h-screen flex flex-col items-center justify-center p-4">
       <header className="flex justify-center mb-8 pt-6">
         <motion.img
         className="w-60" 
@@ -26,11 +54,11 @@ export default function RegisterPage() {
         transition={{ type: "spring", stiffness: 120 }}
       />
       </header>
-      <div className="bg-blue-100 p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-200">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Create Account
         </h2>
-        <form>
+        <form onSubmit={handleRegister}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-medium mb-2">
               Email
@@ -38,7 +66,7 @@ export default function RegisterPage() {
             <input
               type="email"
               id="email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-gray-900"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -51,7 +79,7 @@ export default function RegisterPage() {
             <input
               type="password"
               id="password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-gray-900"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -64,20 +92,25 @@ export default function RegisterPage() {
             <input
               type="password"
               id="confirmPassword"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-gray-900"
               placeholder="Confirm your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-          <button className="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-500 transition duration-200">
+          <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
             Register
           </button>
-          <Link to="/login" className="text-xl text-gray-600 mt-5 inline-block cursor-pointer hover:text-gray-800 transition duration-200 w-full text-center">
+          <Link to="/login" className="text-blue-600 hover:text-blue-800 transition duration-200 w-full text-center mt-5 inline-block text-base">
             You have an account? Login
           </Link>
         </form>
       </div>
+      <Notification 
+        message={notificationMessage} 
+        type={notificationType} 
+        onClose={() => setNotificationMessage(null)} 
+      />
     </div>
   );
 }
