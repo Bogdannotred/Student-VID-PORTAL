@@ -6,7 +6,6 @@ import { supabase } from "../supabaseClient";
 
 export default function HomePage({ user }) {
   const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   return (
     <div className="min-h-screen bg-gray-200">
@@ -15,7 +14,7 @@ export default function HomePage({ user }) {
         <StudentCard user={user} />
       </main>
       <div className="flex justify-center">
-        <DocumentUpload/>
+        <DocumentUpload user={user}/>
       </div>
     </div>
   );
