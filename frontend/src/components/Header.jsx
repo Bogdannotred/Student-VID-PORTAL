@@ -23,6 +23,7 @@ export default function Header({user}) {
 
   function handleAvatarClick() {
     setIsDropdownOpen(!isDropdownOpen);
+    console.log(data);
   }
 
   function handleLogOut() {
@@ -33,10 +34,18 @@ export default function Header({user}) {
 return (
     <div className="relative pb-24">
       <header className="bg-blue-600 text-white h-20 p-4 shadow-md w-full flex justify-start items-center relative z-10">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="mr-4 p-2 rounded-full bg-blue-500 hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-md"
+          aria-label="Go back"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
         <h1 className="text-3xl font-bold">Student Vid</h1>
       </header>
       <div className="absolute left-1/2 top-20 transform -translate-x-1/2 -translate-y-1/2 z-30">
-        
         <div 
           className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-0 
           w-64 h-32 bg-white border-4 border-blue-600 border-t-0
@@ -52,6 +61,7 @@ return (
                      <span className="text-2xl group-hover:text-blue-600">👤</span>
                      <span className="text-xs font-bold text-gray-600 group-hover:text-blue-600">Profile</span>
                 </div>
+                
                 <div 
                     className="absolute bottom-5 left-1/2 transform -translate-x-1/2 cursor-pointer group flex flex-col items-center justify-center hover:scale-110 transition-transform"
                     onClick={() => console.log("Settings Clicked")}

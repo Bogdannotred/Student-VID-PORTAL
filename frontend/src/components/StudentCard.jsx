@@ -16,6 +16,7 @@ import QRCode from "react-qr-code";
         <p className="text-gray-600 mb-1"><span className="font-semibold">Email:</span> {studentEmail}</p>
         <p className="text-gray-600 mb-1"><span className="font-semibold">Universitate:</span> {studentUniversity}</p>
         <p className="text-gray-600 mb-4"><span className="font-semibold">Specializare:</span> {studentSpecialization}</p>
+        <p className="text-gray-600 mb-4"><span className="font-semibold">Student</span></p>
         <div className="flex justify-center">
           <QRCode value={studentId} size={128} bgColor="#ffffff" fgColor="#000000" />
         </div>

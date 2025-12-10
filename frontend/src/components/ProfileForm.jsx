@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { supabase } from "../supabaseClient";
  
 export default function ProfileForm({ user }) {
   
@@ -7,13 +8,21 @@ export default function ProfileForm({ user }) {
   const [university , setUniversity ] = useState("")
   const [specialization , setSpecialization] = useState("")
 
-  function handleSubmit() {
-    
-  }
 
+  const updateProfile = async (e) => {
+    e.preventDefault();
+    const { data , error } = await supabase.auth.updateUser({
+      data: {
+        full_name: fullName,
+        university: university,
+        specialization: specialization
+      },
+    });
+    window.location.reload();
+  }
   return (
     <div>
-      <form className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+      <form onSubmit={updateProfile} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="fullName">
             Full Name
@@ -59,7 +68,6 @@ export default function ProfileForm({ user }) {
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
-          onSubmit={handleSubmit}
         >
           Save Profile
         </button>
