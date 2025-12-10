@@ -14,7 +14,7 @@ export default function Notification({ message, type, onClose }) {
     }
   }, [message, onClose]);
 
-  if (!isVisible) return null;
+if (!isVisible) return null;
 
   const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
   const borderColor = type === 'success' ? 'border-green-700' : 'border-red-700';
