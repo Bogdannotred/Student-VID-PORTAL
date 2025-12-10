@@ -13,9 +13,7 @@ export default function HomePage({ user }) {
       <main className="text-black p-6">
         <StudentCard user={user} />
       </main>
-      <div className="flex justify-center">
         <DocumentUpload user={user}/>
-      </div>
     </div>
   );
 }
