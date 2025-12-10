@@ -1,24 +1,25 @@
 import React from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default function Header() {
+export default function Header({user}) {
   const [data, setData] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!supabaseUrl || !supabaseKey) return;
-    const FetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+    const updateUser = () => {
       setData(user);
     };
-    FetchUser();
-  }, []);
+    updateUser();
+  }, [user]);
+
 
   function handleAvatarClick() {
     setIsDropdownOpen(!isDropdownOpen);
@@ -27,16 +28,15 @@ export default function Header() {
   function handleLogOut() {
     supabase.auth.signOut().then(() => {
       window.location.href = "/";
-
     });
   }
-
-  return (
-    <div className="relative bg-gray-200 pb-24">
+return (
+    <div className="relative pb-24">
       <header className="bg-blue-600 text-white h-20 p-4 shadow-md w-full flex justify-start items-center relative z-10">
         <h1 className="text-3xl font-bold">Student Vid</h1>
       </header>
       <div className="absolute left-1/2 top-20 transform -translate-x-1/2 -translate-y-1/2 z-30">
+        
         <div 
           className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-0 
           w-64 h-32 bg-white border-4 border-blue-600 border-t-0
@@ -44,23 +44,24 @@ export default function Header() {
           ${isDropdownOpen ? 'opacity-100 scale-100 pt-16' : 'opacity-0 scale-50 pt-0 pointer-events-none'}`}
         >
             <div className="relative w-full h-full">
-                <Link to="/profile"
-                    className="absolute top-[-42px] left-8 cursor-pointer group flex flex-col items-center justify-center transform -rotate-[-24deg] hover:scale-110 transition-transform"
-                    onClick={() => setIsDropdownOpen(false)}
+              
+                <div 
+                    className="absolute top-[-40px] left-8 cursor-pointer group flex flex-col items-center justify-center transform -rotate-[-24deg] hover:scale-110 transition-transform"
+                    onClick={() => navigate('/profile')}
                 >
                      <span className="text-2xl group-hover:text-blue-600">👤</span>
                      <span className="text-xs font-bold text-gray-600 group-hover:text-blue-600">Profile</span>
-                </Link>
+                </div>
                 <div 
-                    className="absolute bottom-4 left-1/2 transform -translate-x-1/2 cursor-pointer group flex flex-col items-center justify-center hover:scale-110 transition-transform"
+                    className="absolute bottom-5 left-1/2 transform -translate-x-1/2 cursor-pointer group flex flex-col items-center justify-center hover:scale-110 transition-transform"
                     onClick={() => console.log("Settings Clicked")}
                 >
                      <span className="text-2xl group-hover:text-blue-600">⚙️</span>
                      <span className="text-xs font-bold text-gray-600 group-hover:text-blue-600">Settings</span>
                 </div>
                 <div 
-                    className="absolute top-[-42px] right-8 cursor-pointer group flex flex-col items-center justify-center transform rotate-[-24deg] hover:scale-110 transition-transform"
-                    onClick={handleLogOut}
+                    className="absolute top-[-40px] right-8 cursor-pointer group flex flex-col items-center justify-center transform rotate-[-24deg] hover:scale-110 transition-transform"
+                    onClick={() => handleLogOut()}
                 >
                      <span className="text-2xl text-red-500 group-hover:text-red-700">🚪</span>
                      <span className="text-xs font-bold text-red-500 group-hover:text-red-700">Logout</span>
