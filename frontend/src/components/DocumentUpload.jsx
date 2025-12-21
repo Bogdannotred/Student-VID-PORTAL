@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import { ToastContainer , toast }  from 'react-toastify'
+import { toast }  from 'react-toastify'
 import { useAuth } from '../contexts/AuthContext.jsx'
 
 export default function DocumentUpload () {
@@ -11,7 +11,7 @@ export default function DocumentUpload () {
 
     
     const handleUpload = async () => {
-        const {data, error } = await supabase.storage.from('Documents').upload(`${user.id}/uploadssss` , file)
+        const {data, error } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id},${Date.now()}` , file)
             if(error)
             {
                 toast.error("Error uploading file.")
@@ -20,7 +20,10 @@ export default function DocumentUpload () {
             {
                 toast.success("Successfully uploaded.")
             }
-        }
+
+            console.log(data)
+    }
+
     const handleFileChange = (e) => {
         const selected = e.target.files[0];
         setFile(selected);

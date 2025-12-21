@@ -3,7 +3,7 @@ import LogoWithText from "../assets/LogoWithText.png"
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "../lib/supabaseClient.js";
 import { toast } from "react-toastify";
 
 export default function LoginPage() {
@@ -12,10 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -23,10 +19,8 @@ export default function LoginPage() {
       password: password,
     });
     if (error) {
-      console.error("Error during login:", error.message);
       toast.error(error.message);
     } else {
-      console.log("Login successful:", data);
       toast.success('Login successful!'); 
       navigate('/HomePage');
     }
@@ -40,10 +34,8 @@ export default function LoginPage() {
       },
     });
     if (error) {
-      console.error("Error during Google login:", error.message);
       toast.error(error.message);
     } else {
-      console.log("Google login successful:", data);
       toast.success('Google login successful!');
     }
   };

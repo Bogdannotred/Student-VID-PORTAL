@@ -4,13 +4,14 @@ import { useAuth } from "../contexts/AuthContext.jsx";
 
 export default function StudentCard() {
 
-  const { user } = useAuth();
+  const { user , profile } = useAuth();
 
   const studentName = user?.user_metadata?.full_name || "Nume Student";
   const studentEmail = user?.email || "email@student.ro";
   const studentUniversity = user?.user_metadata?.university || "Universitatea";
   const studentSpecialization = user?.user_metadata?.specialization || "Specializare";
   const studentId = user?.id || "N/A";
+  const profileRole = profile?.role || "student";
 
   return (
     <div className="flex justify-center items-center py-10">
@@ -18,7 +19,7 @@ export default function StudentCard() {
         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10 blur-2xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-purple-400 opacity-20 blur-2xl pointer-events-none"></div>
         <div className="absolute top-0 left-0 w-full h-12 bg-white/10 backdrop-blur-sm flex items-center justify-between px-6 border-b border-white/10">
-          <span className="text-xs font-bold tracking-widest uppercase opacity-80">Legitimație Student</span>
+          <span className="text-xs font-bold tracking-widest uppercase opacity-80">Legitimație {profileRole}</span>
           <div className="w-12 h-3 bg-gray-900/40 rounded-full mx-auto absolute left-1/2 transform -translate-x-1/2 top-4"></div>
           <span className="text-xs font-mono opacity-70">2024-2025</span>
         </div>

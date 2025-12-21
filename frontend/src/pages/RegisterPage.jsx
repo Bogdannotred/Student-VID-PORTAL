@@ -28,10 +28,8 @@ export default function RegisterPage() {
     });
     
     if (error) {
-      console.error("Error during registration:", error.message);
       toast.error(error.message);
     } else {
-      console.log("Registration successful:", data);
       toast.success('Registration successful! Please check your email to confirm your account.');
       navigate('/login');
     }
