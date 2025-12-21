@@ -5,6 +5,8 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import { supabase } from "./supabaseClient";
+import AdminLogin from "./pages/AdminLogin";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -18,13 +20,15 @@ function App() {
   }, []);
 
   return (
-    <Routes>
+     <><ToastContainer /><Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/homepage" element={<HomePage user={user} />} />
       <Route path="/profile" element={<ProfilePage user={user} />} />
-    </Routes>
+      <Route path="/admin" element={<AdminLogin user={user} />} />
+    </Routes></>
+    
   );
 }
 

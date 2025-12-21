@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import Notification from "../components/Notification";
+import { toast } from 'react-toastify';
 
 
 export default function RegisterPage() {
@@ -12,8 +12,6 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState(null);
-  const [notificationType, setNotificationType] = useState(null);
   const navigate = useNavigate();
 
 
@@ -21,22 +19,20 @@ export default function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setNotificationMessage("Passwords do not match!");
-      setNotificationType('error');
+      toast.error("Passwords do not match");
       return;
     }
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
+    
     if (error) {
       console.error("Error during registration:", error.message);
-      setNotificationMessage(error.message);
-      setNotificationType('error');
+      toast.error(error.message);
     } else {
       console.log("Registration successful:", data);
-      setNotificationMessage('Registration successful! Please check your email to confirm your account.');
-      setNotificationType('success');
+      toast.success('Registration successful! Please check your email to confirm your account.');
       navigate('/login');
     }
   };
@@ -106,11 +102,6 @@ export default function RegisterPage() {
           </Link>
         </form>
       </div>
-      <Notification 
-        message={notificationMessage} 
-        type={notificationType} 
-        onClose={() => setNotificationMessage(null)} 
-      />
     </div>
   );
 }

@@ -4,14 +4,12 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { createClient } from "@supabase/supabase-js";
-import Notification from "../components/Notification";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState(null);
-  const [notificationType, setNotificationType] = useState(null);
   const navigate = useNavigate();
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -26,12 +24,10 @@ export default function LoginPage() {
     });
     if (error) {
       console.error("Error during login:", error.message);
-      setNotificationMessage(error.message);
-      setNotificationType('error');
+      toast.error(error.message);
     } else {
       console.log("Login successful:", data);
-      setNotificationMessage('Login successful!');
-      setNotificationType('success');
+      toast.success('Login successful!'); 
       navigate('/HomePage');
     }
   };
@@ -45,12 +41,10 @@ export default function LoginPage() {
     });
     if (error) {
       console.error("Error during Google login:", error.message);
-      setNotificationMessage(error.message);
-      setNotificationType('error');
+      toast.error(error.message);
     } else {
       console.log("Google login successful:", data);
-      setNotificationMessage('Google login successful!');
-      setNotificationType('success');
+      toast.success('Google login successful!');
     }
   };
 
@@ -116,12 +110,7 @@ export default function LoginPage() {
             You don't have an account? Register
           </Link>
         </form>
-      </div>
-      <Notification 
-        message={notificationMessage} 
-        type={notificationType} 
-        onClose={() => setNotificationMessage(null)} 
-      />
+      </div>  
     </div>
   );
 }

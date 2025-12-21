@@ -1,28 +1,22 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
-import Notification from './Notification'
+import { ToastContainer , toast }  from 'react-toastify'
 
 export default function DocumentUpload ( { user }) {
 
-    const [image , setImage] = useState(null)
     const [file , setFile] = useState(null)
     const [previewUrl , setPreviewUrl] = useState(null)
-    const [uploadStatus , setUploadStatus] = useState(null)
-    const [notification, setNotification] = useState({ message: '', type: '' });
 
-    const triggerNotification = (message, type) => {
-    setNotification({ message, type });
-  };
 
     const handleUpload = async () => {
         const {data, error } = await supabase.storage.from('Documents').upload(`${user.id}/uploadssss` , file)
             if(error)
             {
-                triggerNotification('Error uploading file' , 'error');
+                toast.error("Error uploading file.")
             }
             else
             {
-                triggerNotification('Successfully uploaded.' , 'success')
+                toast.success("Successfully uploaded.")
             }
         }
     const handleFileChange = (e) => {
@@ -60,11 +54,6 @@ export default function DocumentUpload ( { user }) {
             >
                 Upload
             </button>
-            <Notification
-            message={notification.message}
-            type={notification.type}
-            onClose={() => setNotification({ message: '', type: '' })}
-            />
         </div>
     </div>
     );

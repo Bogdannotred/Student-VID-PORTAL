@@ -5,7 +5,6 @@ import DocumentUpload from "../components/DocumentUpload";
 import { supabase } from "../supabaseClient";
 
 export default function HomePage({ user }) {
-  const [documents, setDocuments] = useState([]);
 
   return (
     <div className="min-h-screen bg-gray-200">
