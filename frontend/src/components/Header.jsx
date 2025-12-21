@@ -2,16 +2,18 @@ import React from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default function Header({user}) {
+export default function Header() {
   const [data, setData] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const { user , profile , isAdmin } = useAuth();
 
   useEffect(() => {
     const updateUser = () => {
@@ -23,6 +25,7 @@ export default function Header({user}) {
 
   function handleAvatarClick() {
     setIsDropdownOpen(!isDropdownOpen);
+    getUserRole()
     console.log(data);
   }
 

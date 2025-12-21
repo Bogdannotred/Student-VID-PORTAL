@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../supabaseClient'
+import { supabase } from '../lib/supabaseClient'
 import { ToastContainer , toast }  from 'react-toastify'
+import { useAuth } from '../contexts/AuthContext.jsx'
 
-export default function DocumentUpload ( { user }) {
+export default function DocumentUpload () {
 
     const [file , setFile] = useState(null)
     const [previewUrl , setPreviewUrl] = useState(null)
+    const { user } = useAuth();
 
-
+    
     const handleUpload = async () => {
         const {data, error } = await supabase.storage.from('Documents').upload(`${user.id}/uploadssss` , file)
             if(error)

@@ -1,7 +1,11 @@
 import React from "react";
 import QRCode from "react-qr-code";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
-export default function StudentCard({ user }) {
+export default function StudentCard() {
+
+  const { user } = useAuth();
+
   const studentName = user?.user_metadata?.full_name || "Nume Student";
   const studentEmail = user?.email || "email@student.ro";
   const studentUniversity = user?.user_metadata?.university || "Universitatea";

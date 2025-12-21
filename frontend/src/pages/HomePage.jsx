@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import StudentCard from "../components/StudentCard";
 import DocumentUpload from "../components/DocumentUpload";
-import { supabase } from "../supabaseClient";
 
-export default function HomePage({ user }) {
+export default function HomePage() {
 
+  
   return (
     <div className="min-h-screen bg-gray-200">
-      <Header user={user}/>
+      <Header />
       <main className="text-black p-6">
-        <StudentCard user={user} />
+        <StudentCard />
       </main>
-        <DocumentUpload user={user}/>
+        <DocumentUpload />
     </div>
   );
 }
