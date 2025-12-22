@@ -13,7 +13,7 @@ export default function DocumentUpload () {
     
     const handleUpload = async () => {
         try {
-            const { data: storageData, error : storageError } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id},${Date.now()}`, file);
+            const { data: storageData, error : storageError } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id}/${Date.now()}`, file);
             const { error : dbError} = await supabase
                 .from('requests')
                 .insert({ 
@@ -26,7 +26,6 @@ export default function DocumentUpload () {
             toast.error("Upload error: " + err.message);
         }
     }
-
     const handleTableUpload = async () => {
         try {
 
