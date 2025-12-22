@@ -8,21 +8,35 @@ export default function DocumentUpload () {
     const [file , setFile] = useState(null)
     const [previewUrl , setPreviewUrl] = useState(null)
     const { user } = useAuth();
+    const [uploadData , setUploadData] = useState(null);
 
     
     const handleUpload = async () => {
-        const {data, error } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id},${Date.now()}` , file)
-            if(error)
-            {
-                toast.error("Error uploading file.")
-            }
-            else
-            {
-                toast.success("Successfully uploaded.")
-            }
-
-            console.log(data)
+        try {
+            const { data: storageData, error : storageError } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id},${Date.now()}`, file);
+            const { error : dbError} = await supabase
+                .from('requests')
+                .insert({ 
+                    student_id: user.id,
+                    file_path: storageData.fullPath, 
+                    status: 'pending' 
+                });
+            toast.success("File uploaded successfully!");
+        } catch (err) {
+            toast.error("Upload error: " + err.message);
+        }
     }
+
+    const handleTableUpload = async () => {
+        try {
+
+            } catch (err) {
+                console.log("Table Upload Error:", err);
+            }
+    }
+
+    console.log("Upload Data:", uploadData);
+
 
     const handleFileChange = (e) => {
         const selected = e.target.files[0];
@@ -49,7 +63,10 @@ export default function DocumentUpload () {
             type="file" 
             id="file-upload" 
             name="ImageStyle"
-            onChange={handleFileChange}
+            onChange={(e) => {
+                handleFileChange(e);
+                handleTableUpload();
+            }}
         />
         <div className='flex items-center justify-center'>
             <button 
