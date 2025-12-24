@@ -8,20 +8,27 @@ export default function DocumentUpload () {
     const [file , setFile] = useState(null)
     const [previewUrl , setPreviewUrl] = useState(null)
     const { user } = useAuth();
-    const [uploadData , setUploadData] = useState(null);
-
+    const [inputSubject , setInputSubject] = useState("") 
     
     const handleUpload = async () => {
         try {
+            if(inputSubject.length > 0)
+            {
             const { data: storageData, error : storageError } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id}/${Date.now()}`, file);
             const { error : dbError} = await supabase
                 .from('requests')
                 .insert({ 
                     student_id: user.id,
                     file_path: storageData.fullPath, 
-                    status: 'pending' 
+                    status: 'pending' ,
+                    subject : inputSubject
                 });
             toast.success("File uploaded successfully!");
+            }
+            else
+            {
+                toast.error("Complete the subject input")
+            }
         } catch (err) {
             toast.error("Upload error: " + err.message);
         }
@@ -34,7 +41,6 @@ export default function DocumentUpload () {
             }
     }
 
-    console.log("Upload Data:", uploadData);
 
 
     const handleFileChange = (e) => {
@@ -43,7 +49,17 @@ export default function DocumentUpload () {
         setPreviewUrl(URL.createObjectURL(selected));
     }
     return(
-    <div className="absolute bg-white w-full h-1/4 shadow-2xl flex flex-col justify-center items-center p-8">
+    <div className="absolute bg-white w-full h-2/4 shadow-2xl flex flex-col justify-center items-center p-8">
+        <div className="text-black m-2">
+            Upload a request
+        </div>
+        <input 
+            className="w-1/5 mb-5 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-blue-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
+            placeholder="Subject"
+            value={inputSubject}
+            onChange={(e) => setInputSubject(e.target.value)}
+            />
+            
         <label 
             htmlFor="file-upload"
             className='bg-gray-200 w-80 h-40 flex flex-col justify-center items-center border-2 border-dashed border-blue-400 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors mb-4'
