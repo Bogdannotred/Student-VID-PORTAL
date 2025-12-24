@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from '../lib/supabaseClient.js';
 
 
-export default function DocumentList () {
+export default function DocumentListAdmin () {
 
     const { user } = useAuth();
     const [signedUrl, setSignedUrl] = useState();
@@ -13,6 +13,7 @@ export default function DocumentList () {
     const [subject , setSubject] = useState([]);
     const [currentData , setCurrentData] = useState()
     const [paths , setPaths] = useState("")
+    const [issuedName , setIssuedName] = useState("")
 
         const fetchData = async () => {
                 const { data : datas, error } = await supabase
@@ -26,6 +27,8 @@ export default function DocumentList () {
             const status = datas.map(item => item.status);
             const id = datas.map(item => item.id);
             const names = datas.map(item => item.subject); 
+            const issued = datas.map(item => item.issued_by); 
+            setIssuedName(issued);
             setStatus(status);
             setDate(dates);
             setSubject(names);
@@ -85,6 +88,7 @@ export default function DocumentList () {
                 <table>
                     <thead className='text-black border-b-2 border-gray-300'>
                         <tr>
+                            <th className='px-3 py-2'>Document Issued by</th>
                             <th className='px-3 py-2'>Document Image</th>
                             <th className='px-3 py-2'>Document Name</th>
                             <th className='px-3 py-2'>Document Status</th>
@@ -97,7 +101,12 @@ export default function DocumentList () {
                         {signedUrl && signedUrl.map((url, index) => (
                             <tr className = '' key = {index}>
                                 <td className='w-20'>
-                                    <img className='rounded w-full h-auto max-w-[80px] md:max-w-[100px]' src={url} alt={`Document ${index + 1}`} />
+                                    <a className='text-black'>
+                                        {issuedName[index]}
+                                    </a>
+                                </td>
+                                <td className='w-20'>
+                                    <img className='rounded object-cover w-[80px] h-[100px] border border-gray-200 shadow-sm'  src={url} alt={`Document ${index + 1}`} />
                                 </td>
                                 <td >
                                     <a className='text-black font-bold'>{subject[index]}</a>
@@ -111,9 +120,9 @@ export default function DocumentList () {
                                 <td>
                                     <a className='text-black font-bold' href={url}>View Image</a>
                                 </td>
-                                <td className='flex gap-3 justify-center p-5'>
-                                    <button onClick={() => handleActions(id[index], 'accept')} className='bg-green-700'>Accept</button>
-                                    <button onClick={() => handleActions(id[index], 'denied')} className='bg-red-700'>Deny</button>
+                                <td className='flex gap-3 justify-center items-center p-5'>
+                                    <button onClick={() => handleActions(id[index], 'accept')} className='bg-green-700 px-4 py-2'>Accept</button>
+                                    <button onClick={() => handleActions(id[index], 'denied')} className='bg-red-700 px-4 py-2'>Deny</button>
                                 </td>
                             </tr>
                         ))}

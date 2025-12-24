@@ -18,12 +18,14 @@ export default function DocumentUpload () {
             const { error : dbError} = await supabase
                 .from('requests')
                 .insert({ 
+                    issued_by : user.user_metadata.full_name,
                     student_id: user.id,
                     file_path: storageData.fullPath, 
                     status: 'pending' ,
                     subject : inputSubject
                 });
             toast.success("File uploaded successfully!");
+            console.log(user)
             }
             else
             {
