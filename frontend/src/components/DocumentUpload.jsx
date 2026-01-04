@@ -12,38 +12,37 @@ export default function DocumentUpload () {
     
     const handleUpload = async () => {
         try {
-            if(inputSubject.length > 0)
-            {
+            if(inputSubject.length === 0) {
+                toast.error("Complete the subject input");
+                return;
+            }
+
             const { data: storageData, error : storageError } = await supabase.storage.from('Documents').upload(`request_uploads/${user.id}/${Date.now()}`, file);
+            
+            if (storageError) {
+                throw storageError;
+            }
+
             const { error : dbError} = await supabase
                 .from('requests')
                 .insert({ 
                     issued_by : user.user_metadata.full_name,
                     student_id: user.id,
-                    file_path: storageData.fullPath, 
+                    file_path: storageData.path, 
                     status: 'pending' ,
                     subject : inputSubject
                 });
+
+            if (dbError) {
+                throw dbError;
+            }
+
             toast.success("File uploaded successfully!");
             console.log(user)
-            }
-            else
-            {
-                toast.error("Complete the subject input")
-            }
         } catch (err) {
             toast.error("Upload error: " + err.message);
         }
     }
-    const handleTableUpload = async () => {
-        try {
-
-            } catch (err) {
-                console.log("Table Upload Error:", err);
-            }
-    }
-
-
 
     const handleFileChange = (e) => {
         const selected = e.target.files[0];
@@ -80,10 +79,7 @@ export default function DocumentUpload () {
             type="file" 
             id="file-upload" 
             name="ImageStyle"
-            onChange={(e) => {
-                handleFileChange(e);
-                handleTableUpload();
-            }}
+            onChange={handleFileChange}
         />
         <div className='flex items-center justify-center'>
             <button 
