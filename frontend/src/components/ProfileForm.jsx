@@ -7,6 +7,7 @@ export default function ProfileForm() {
       const [file , setFile] = useState(null)
       const [previewUrl , setPreviewUrl] = useState(null)
       const { user } = useAuth();
+      const [signedUrl, setSignedUrl] = useState();
       
       const handleUpload = async () => {
           try {
@@ -21,13 +22,19 @@ export default function ProfileForm() {
               if (storageError) {
                   throw storageError;
               }
-              const { data: { publicUrl } } = supabase.storage.from('Documents').getPublicUrl(filePath);
+
+              const { data , error : createSignedUrlError } = await supabase.storage
+                  .from('Documents')
+                  .createSignedUrls(filePath, 1000);
+              const signedUrlsArray = data.map(item => item.signedUrl);
+              setSignedUrl(signedUrlsArray);
 
               const { error: updateError } = await supabase.auth.updateUser({
                 data: {
-                  avatar_url: publicUrl,
+                  avatar_url: signedUrlsArray[0],
                 }
-              });
+              })
+              console.log(signedUrlsArray[0]);
   
               if (updateError) {
                   throw updateError;
@@ -47,13 +54,13 @@ export default function ProfileForm() {
 
   return (
    <div className="absolute bg-white w-full h-2/4 shadow-2xl flex flex-col justify-center items-center p-8">
-        <div className="text-black m-2">
-            Upload a photo
+        <div className="text-black m-2 font-bold text-lg ">
+            Upload a profile photo
         </div>
             
         <label 
             htmlFor="file-upload"
-            className='bg-gray-200 w-80 h-40 flex flex-col justify-center items-center border-2 border-dashed border-blue-400 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors mb-4'
+            className='bg-gray-200 w-80 h-40 flex flex-col justify-center items-center border-2 border-dashed border-blue-400 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors mb-4 shadow-md'
         >
             {previewUrl ? (
                 <img src={previewUrl} alt="Preview" className="max-w-full max-h-full object-contain" />
@@ -73,7 +80,7 @@ export default function ProfileForm() {
         />
         <div className='flex items-center justify-center'>
             <button 
-                className='bg-blue-600 text-white font-bold px-6 py-2 rounded hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed' 
+                className='shadow-xl bg-blue-600 text-white font-bold px-6 py-2 rounded hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed' 
                 onClick={handleUpload}
                 disabled={!file}
             >

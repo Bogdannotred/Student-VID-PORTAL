@@ -82,10 +82,16 @@ export default function DocumentListAdmin () {
         }, [user]);
 
     return(
-        <div className="max-w-4xl mx-auto p-3 bg-white rounded-lg shadow-md">
+        <div className="w-full mx-auto p-3 bg-white rounded-lg shadow-md flex-col justify-center align-center">
             <h2 className="text-xl font-semibold text-black flex justify-center align-center w-full">Your Documents</h2>
+            <div className='flex-col justify-center align-center w-full'>
+                <input
+                className='bg-gray-200 shadow-md w-full md:w-[300px] h-[35px] p-2'
+                placeholder='Search by name ...'
+                />
+            </div>
             <div className='text-black flex justify-center align-center w-full overflow-x-auto mt-4'>
-                <table>
+                <table className="w-full">
                     <thead className='text-black border-b-2 border-gray-300'>
                         <tr>
                             <th className='px-3 py-2'>Document Issued by</th>
@@ -99,30 +105,30 @@ export default function DocumentListAdmin () {
                     </thead>
                     <tbody className='text-center'>
                         {signedUrl && signedUrl.map((url, index) => (
-                            <tr className = '' key = {index}>
-                                <td className='w-20'>
+                            <tr className = 'border-b border-gray-200' key = {index}>
+                                <td className='w-20 p-2'>
                                     <a className='text-black'>
                                         {issuedName[index]}
                                     </a>
                                 </td>
-                                <td className='w-20'>
+                                <td className='w-20 p-2'>
                                     <img className='rounded object-cover w-[80px] h-[100px] border border-gray-200 shadow-sm'  src={url} alt={`Document ${index + 1}`} />
                                 </td>
-                                <td >
+                                <td className="p-2">
                                     <a className='text-black font-bold'>{subject[index]}</a>
                                 </td>
-                                <td >
-                                    <button className='bg-blue-300  '>{status[index]}</button>
+                                <td className="p-2">
+                                    <button className='bg-blue-300 p-1 rounded'>{status[index]}</button>
                                 </td>
-                                <td>
+                                <td className="p-2">
                                     <a className='text-black font-bold'>{date[index]}</a>
                                 </td>
-                                <td>
+                                <td className="p-2">
                                     <a className='text-black font-bold' href={url}>View Image</a>
                                 </td>
-                                <td className='flex gap-3 justify-center items-center p-5'>
-                                    <button onClick={() => handleActions(id[index], 'accept')} className='bg-green-700 px-4 py-2'>Accept</button>
-                                    <button onClick={() => handleActions(id[index], 'denied')} className='bg-red-700 px-4 py-2'>Deny</button>
+                                <td className='flex flex-col md:flex-row gap-3 justify-center items-center p-5'>
+                                    <button onClick={() => handleActions(id[index], 'accept')} className='bg-green-700 text-white px-4 py-2 rounded'>Accept</button>
+                                    <button onClick={() => handleActions(id[index], 'denied')} className='bg-red-700 text-white px-4 py-2 rounded'>Deny</button>
                                 </td>
                             </tr>
                         ))}
