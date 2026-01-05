@@ -15,7 +15,11 @@ export default function CreateUser () {
                 const { data, error } = await supabaseAdmin.auth.admin.createUser({
                 email: email,
                 password: pass,
-                user_metadata: { name: name }
+                    user_metadata: { 
+                        name: name ,
+                        full_name: name 
+                    },
+                    email_confirm:true
                 })
             
             if (error) throw error;

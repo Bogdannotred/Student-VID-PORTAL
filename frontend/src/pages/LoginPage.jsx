@@ -14,6 +14,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("Attempting login for:", email, "with password length:", password.length); // Debugging
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,

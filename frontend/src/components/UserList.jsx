@@ -66,21 +66,21 @@ const filteredUsers = useMemo(() => {
 
                             {filteredUsers.map((user) => (
                                 <tr key={user.id} className='border-b border-gray-200 hover:bg-gray-100'>
-                                    <td className='px-3 py-2'>{user.user_metadata.name || 'N/A'}</td>
-                                    <td className='px-3 py-2'>{user.email}</td>
-                                    <td className='px-3 py-2'>
+                                    <td className='px-3 py-2 flex justify-center'>{user.user_metadata.name || 'N/A'}</td>
+                                    <td className='px-3 py-2 flex-row justify-center'>{user.email}</td>
+                                    <td className='px-3 py-2 flex-row justify-center'>
                                         {user.user_metadata.avatar_url ? (
                                             <img
                                                 src={user.user_metadata.avatar_url}
                                                 alt="User Avatar"
-                                                className="w-10 h-10 rounded-full"
+                                                className="w-10 h-10 rounded-full flex-row justify-center"
                                             />
                                         ) : (
                                             'N/A'
                                         )}
                                     </td>
-                                    <td className='px-3 py-2'>{user.user_metadata.university || 'N/A'}</td>
-                                    <td className='px-3 py-2'>{user.user_metadata.specialization || 'N/A'}</td>
+                                    <td className='px-3 py-2 flex-row justify-center align-items'>{user.user_metadata.university || 'N/A'}</td>
+                                    <td className='px-3 py-2 flex-row justify-center align-items'>{user.user_metadata.specialization || 'N/A'}</td>
                                 </tr>
                             ))}
                         </tbody>
