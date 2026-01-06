@@ -64,16 +64,16 @@ export default function StudentCard({ user }) {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-end mt-2">
+            <div className="flex justify-between items-center mt-2">
               <div className="flex flex-col">
                  <p className="text-[9px] uppercase tracking-wider text-blue-100 opacity-60">Unique ID</p>
                  <p className="font-mono text-[10px] opacity-80 truncate w-32">{studentId}</p>
               </div>
               
-              <div className="bg-white p-2 rounded-lg shadow-md">
+              <div className="bg-white rounded-lg shadow-md w-16 h-16 flex justify-center items-center">
                 <QRCode
                   value={studentId}
-                  size={48}
+                  size={54}
                   bgColor="#ffffff"
                   fgColor="#000000"
                   level="M"

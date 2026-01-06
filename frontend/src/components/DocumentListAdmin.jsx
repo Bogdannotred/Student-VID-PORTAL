@@ -11,8 +11,7 @@ export default function DocumentListAdmin() {
     const fetchData = async () => {
         const { data, error } = await supabase
             .from('requests')
-            .select('*')
-            .eq('student_id', user.id);
+            .select('*');
 
         if (error || !data) return [];
         setCurrentData(data);
@@ -25,17 +24,17 @@ export default function DocumentListAdmin() {
             if (data.length === 0) return;
 
             const paths = data.map(item => item.file_path.replace('Documents/', ''));
-            
             const { data: signedData, error } = await supabase.storage
                 .from('Documents')
                 .createSignedUrls(paths, 3600);
-
             if (signedData) {
                 setSignedUrls(signedData.map(item => item.signedUrl));
             }
         } catch (error) {
             console.error('Error fetching signed URLs:', error);
         }
+        console.log(signedUrls)
+     
     };
 
     const handleActions = async (id, action) => {
@@ -59,8 +58,9 @@ export default function DocumentListAdmin() {
     const filteredData = currentData.filter((item) => {
         const search = searchTerm.toLowerCase();
         return (
-            item.subject?.toLowerCase().includes(search) ||
-            item.issued_by?.toLowerCase().includes(search)
+            item.issued_by?.toLowerCase().includes(search) ||
+            item.subject?.toLowerCase().includes(search) 
+            
         );
     });
 
