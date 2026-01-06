@@ -25,7 +25,7 @@ export default function ProfileForm() {
 
               const { data , error : createSignedUrlError } = await supabase.storage
                   .from('Documents')
-                  .createSignedUrls(filePath, 1000);
+                  .createSignedUrls([filePath], 1000);
               const signedUrlsArray = data.map(item => item.signedUrl);
               setSignedUrl(signedUrlsArray);
 

@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import React from 'react';
 
 const AdminRoute = ({ children }) => {
   const { user, isAdmin, loading } = useAuth();
@@ -12,7 +13,7 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return React.cloneElement(children, { user });
 };
 
 export default AdminRoute;

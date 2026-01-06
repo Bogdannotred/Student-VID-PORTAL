@@ -7,6 +7,19 @@ export default function CreateUser () {
     const [email , setEmail] = useState("");
     const [name , setName] = useState("");
     const [pass , setPass] = useState("");
+    const [year, setYear] = useState("");
+    const [university, setUniversity] = useState("");
+    const [specialization, setSpecialization] = useState("");
+    const [faculty, setFaculty] = useState("");
+
+        const fetchUsers = async () => {
+        const { data, error } = await supabaseAdmin.auth.admin.listUsers();
+        if (error) {
+            console.error("Error fetching users:", error);
+            return;
+        }
+        setUsers(data.users);
+    };
 
     const handleCreateUser = async (e) => {
         e.preventDefault();
@@ -16,8 +29,12 @@ export default function CreateUser () {
                 email: email,
                 password: pass,
                     user_metadata: { 
-                        name: name ,
-                        full_name: name 
+                        name: name,
+                        full_name: name,
+                        year: year,
+                        university: university,
+                        specialization: specialization,
+                        faculty: faculty
                     },
                     email_confirm:true
                 })
@@ -30,6 +47,9 @@ export default function CreateUser () {
             console.error("Error creating user:", error);
             toast.error("Error creating user: " + error.message);
         }
+
+    fetchUsers()
+        
     };
 
     return(
@@ -63,6 +83,42 @@ export default function CreateUser () {
                     value={pass}
                     name="password"
                     placeholder="Password"
+                    />
+                    <label className="text-black font-bold">Enter year:</label>
+                    <input
+                    className="text-black bg-gray-200 border-blue-500 rounded border-2 w-full h-[50px] m-1 shadow-md"
+                    type="text"
+                    onChange={(e) => setYear(e.target.value)}
+                    value={year}
+                    name="year"
+                    placeholder="Year"
+                    />
+                    <label className="text-black font-bold">Enter university:</label>
+                    <input
+                    className="text-black bg-gray-200 border-blue-500 rounded border-2 w-full h-[50px] m-1 shadow-md"
+                    type="text"
+                    onChange={(e) => setUniversity(e.target.value)}
+                    value={university}
+                    name="university"
+                    placeholder="University"
+                    />
+                    <label className="text-black font-bold">Enter specialization:</label>
+                    <input
+                    className="text-black bg-gray-200 border-blue-500 rounded border-2 w-full h-[50px] m-1 shadow-md"
+                    type="text"
+                    onChange={(e) => setSpecialization(e.target.value)}
+                    value={specialization}
+                    name="specialization"
+                    placeholder="Specialization"
+                    />
+                    <label className="text-black font-bold">Enter faculty:</label>
+                    <input
+                    className="text-black bg-gray-200 border-blue-500 rounded border-2 w-full h-[50px] m-1 shadow-md"
+                    type="text"
+                    onChange={(e) => setFaculty(e.target.value)}
+                    value={faculty}
+                    name="faculty"
+                    placeholder="Faculty"
                     />
                     <button
                     className="bg-blue-500 text-white rounded p-2 m-3"
