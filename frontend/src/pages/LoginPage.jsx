@@ -99,9 +99,6 @@ export default function LoginPage() {
             />
             Sign in with Google
           </button>
-          <Link to="/register" className="text-blue-600 hover:text-blue-800 transition duration-200 w-full text-center mt-5 inline-block text-base">
-            You don't have an account? Register
-          </Link>
         </form>
       </div>  
     </div>

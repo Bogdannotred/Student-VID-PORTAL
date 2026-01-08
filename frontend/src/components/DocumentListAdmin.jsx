@@ -12,7 +12,6 @@ export default function DocumentListAdmin() {
         const { data, error } = await supabase
             .from('requests')
             .select('*');
-
         if (error || !data) return [];
         setCurrentData(data);
         return data;
@@ -33,7 +32,6 @@ export default function DocumentListAdmin() {
         } catch (error) {
             console.error('Error fetching signed URLs:', error);
         }
-        console.log(signedUrls)
      
     };
 

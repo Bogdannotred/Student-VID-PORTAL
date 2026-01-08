@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
+import Test123 from "./components/Test123";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/test" element={<Test123 />} />
+
         <Route 
           path="/homepage" 
           element={

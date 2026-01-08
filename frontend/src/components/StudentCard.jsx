@@ -17,7 +17,7 @@ export default function StudentCard({ user }) {
 
   return (
     <div className="flex justify-center items-center py-10">
-      <div className="relative w-[500px] h-[300px] bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 rounded-2xl shadow-2xl overflow-hidden text-white border border-white/20">
+      <div className="relative w-[500px] h-[350px] bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 rounded-2xl shadow-2xl overflow-hidden text-white border border-white/20">
         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10 blur-2xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-purple-400 opacity-20 blur-2xl pointer-events-none"></div>
         <div className="absolute top-0 left-0 w-full h-12 bg-white/10 backdrop-blur-sm flex items-center justify-between px-6 border-b border-white/10">

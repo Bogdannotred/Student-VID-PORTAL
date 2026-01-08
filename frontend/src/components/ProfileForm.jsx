@@ -23,18 +23,11 @@ export default function ProfileForm() {
                   throw storageError;
               }
 
-              const { data , error : createSignedUrlError } = await supabase.storage
-                  .from('Documents')
-                  .createSignedUrls([filePath], 1000);
-              const signedUrlsArray = data.map(item => item.signedUrl);
-              setSignedUrl(signedUrlsArray);
-
               const { error: updateError } = await supabase.auth.updateUser({
                 data: {
-                  avatar_url: signedUrlsArray[0],
+                  avatar_path: filePath,
                 }
               })
-              console.log(signedUrlsArray[0]);
   
               if (updateError) {
                   throw updateError;

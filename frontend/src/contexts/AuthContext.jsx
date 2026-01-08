@@ -39,6 +39,26 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (user?.user_metadata?.avatar_path) {
+      const fetchAvatarUrl = async () => {
+        const { data, error } = await supabase.storage
+          .from('Documents')
+          .createSignedUrl(user.user_metadata.avatar_path, 3600);
+        if (data) {
+          setUser(prevUser => ({
+            ...prevUser,
+            user_metadata: {
+              ...prevUser.user_metadata,
+              avatar_url: data.signedUrl,
+            },
+          }));
+        }
+      };
+      fetchAvatarUrl();
+    }
+  }, [user]);
+
   const value = {
     user,
     profile,
