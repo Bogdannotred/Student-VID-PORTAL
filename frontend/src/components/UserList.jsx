@@ -55,14 +55,25 @@ export default function UserList() {
     }, [users, searchTerm]);
 
     const handleEditing = (user) => {
-        setEditingId(user.id);
-        setIsEditing(true);
-        setName(user.user_metadata.name || "");
-        setEmail(user.email || "");
-        setUniversity(user.user_metadata.university || "");
-        setSpecialization(user.user_metadata.specialization || "");
-        setYear(user.user_metadata.year || "");
-        setFaculty(user.user_metadata.faculty || "");
+        if (editingId === user.id && isEditing) {
+            setEditingId(null);
+            setIsEditing(false);
+            setName("");
+            setEmail("");
+            setUniversity("");
+            setSpecialization("");
+            setYear("");
+            setFaculty("");
+        } else {
+            setEditingId(user.id);
+            setIsEditing(true);
+            setName(user.user_metadata.name || "");
+            setEmail(user.email || "");
+            setUniversity(user.user_metadata.university || "");
+            setSpecialization(user.user_metadata.specialization || "");
+            setYear(user.user_metadata.year || "");
+            setFaculty(user.user_metadata.faculty || "");
+        }
     };
 
 
