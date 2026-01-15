@@ -37,7 +37,7 @@ export default function LoginPage() {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success('Google login successful!');
+      toast.success('Google login successfuly!');
     }
   };
 
