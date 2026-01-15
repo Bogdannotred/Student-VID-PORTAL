@@ -24,23 +24,23 @@ This project is a web-based application designed to streamline the process of ma
 
 
 
-<img src="../images/HomePage.png" width="500"/>
+<img src="./images/HomePage.png" width="500"/>
 
 
 
-<img src="../images/Admin%20Panel%20Main.png" width="500"/>
+<img src="./images/Admin%20Panel%20Main.png" width="500"/>
 
 
 
-<img src="../images/Create%20User.png" width="500"/>
+<img src="./images/Create%20User.png" width="500"/>
 
 
 
-<img src="../images/Student%20Management.png" width="500"/>
+<img src="./images/Student%20Management.png" width="500"/>
 
 
 
-<img src="../images/upload%20document.png" width="500"/>
+<img src="./images/upload%20document.png" width="500"/>
 
 
 
