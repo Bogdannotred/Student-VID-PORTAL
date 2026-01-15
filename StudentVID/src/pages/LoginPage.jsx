@@ -78,7 +78,7 @@ export default function LoginPage() {
             <input
               type="password"
               id="password"
-              className="w-full px-4 py-3  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-gray-900"
+              className="w-full px-4 py-3 text-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-gray-900"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
